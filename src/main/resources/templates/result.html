@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Form Submission</title>
+
+</head>
+<body>
+<h1>Result</h1>
+<p th:text="'Pesel: ' + ${patients.pesel}" />
+<p th:text="'Adres: ' + ${patients.adres}" />
+<p th:text="'Nr ubezpieczenia: ' + ${patients.nrUbezpieczenia}" />
+<p th:text="'Imie: ' + ${patients.imie}" />
+<p th:text="'Nr telefonu: ' + ${patients.nrTelefonu}" />
+<p th:text="'Nazwisko: ' + ${patients.nazwisko}" />
+
+<a href="/registration">Dodaj jeszcze raz</a>
+<a href="/">Menu</a>
+</body>
+</html>
