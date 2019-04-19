@@ -2,7 +2,6 @@ package com.example.demo.dao;
 
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 
@@ -14,13 +13,13 @@ public class Users {
     @Id
     @Column(name = "pesel")
     private Long pesel;
-    @Column(name = "haslo")
+    @Column(name = "password")
     private String password;
     @Column(name = "rola")
     private String role;
 
 
-    public Users(Users user) {
+    public Users() {
     }
 
     public Users(Long pesel, String password, String role) {

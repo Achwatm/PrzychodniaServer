@@ -24,7 +24,6 @@ public class PatientsController {
 
     final
     PatientsRepository patientsRepository;
-    PatientsService patientsService;
 
     @Autowired
     public PatientsController(PatientsRepository patientsRepository) {
