@@ -1,29 +1,15 @@
-package com.example.demo.dao;
+package com.example.demo.dto;
 
+public class UsersDto {
 
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.*;
-
-@Entity
-@Table(name = "users",schema = "public")
-
-public class Users {
-
-    @Id
-    @Column(name = "pesel")
     private Long pesel;
-    @Column(name = "haslo")
     private String password;
-    @Column(name = "rola")
     private String role;
 
-
-    public Users(Users user) {
+    public UsersDto() {
     }
 
-    public Users(Long pesel, String password, String role) {
+    public UsersDto(Long pesel, String password, String role) {
         this.pesel = pesel;
         this.password = password;
         this.role = role;

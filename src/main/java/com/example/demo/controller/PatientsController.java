@@ -22,35 +22,28 @@ import java.util.Map;
 public class PatientsController {
 
 
-    @Autowired
+    final
     PatientsRepository patientsRepository;
     PatientsService patientsService;
+
+    @Autowired
+    public PatientsController(PatientsRepository patientsRepository) {
+        this.patientsRepository = patientsRepository;
+    }
+
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @RequestMapping(value ="/showPatients",method = RequestMethod.GET)
     public List<Patients> getAll(){
 
-        return  patientsRepository.showPatients();
+        return patientsRepository.showPatients();
     }
 
-
-    @RequestMapping(value = "/registration", method = RequestMethod.GET)
-    public String customerForm(Model model) {
-        model.addAttribute("patients", new PatientDto());
-        return "registration";
-    }
-
-    @PostMapping(value = "/registration")
-    public @ResponseBody  String customerSubmit(@RequestBody final PatientDto patients) {
-
-        patientsService.addNewPatient(patients);
-
-        return "result";
-    }
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @RequestMapping(value ="/addPatient",method = RequestMethod.POST)
     public ResponseEntity  addNewPatient(@RequestBody final PatientDto patientDto){
       Patients patient = new Patients(patientDto.getPesel(),patientDto.getAdres(),patientDto.getNrUbezpieczenia(),patientDto.getImie(),patientDto.getNrTelefonu(),patientDto.getNazwisko());
-        patientsRepository.save(patient);
+      System.out.println("pesel:"+patientDto.getPesel());
+      patientsRepository.save(patient);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

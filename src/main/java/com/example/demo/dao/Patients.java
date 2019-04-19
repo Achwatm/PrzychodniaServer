@@ -6,9 +6,9 @@ import javax.persistence.*;
 @Table(name = "pacjenci",schema = "public")
 public class Patients {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "pesel")
-    private String pesel;
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "pesel", columnDefinition = "BIGINT")
+    private Long pesel;
     @Column(name = "adres")
     private String adres;
     @Column(name = "nr_ubezpieczenia")
@@ -23,7 +23,7 @@ public class Patients {
     public Patients() {
     }
 
-    public Patients(String pesel,String adres, String nrUbezpieczenia, String imie, String nrTelefonu, String nazwisko) {
+    public Patients(Long pesel,String adres, String nrUbezpieczenia, String imie, String nrTelefonu, String nazwisko) {
         this.pesel = pesel;
         this.adres = adres;
         this.nrUbezpieczenia = nrUbezpieczenia;
@@ -32,11 +32,11 @@ public class Patients {
         this.nazwisko = nazwisko;
     }
 
-    public String getPesel() {
+    public Long getPesel() {
         return pesel;
     }
 
-    public void setPesel(String pesel) {
+    public void setPesel(Long pesel) {
         this.pesel = pesel;
     }
 

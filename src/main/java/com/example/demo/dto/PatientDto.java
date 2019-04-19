@@ -2,18 +2,18 @@ package com.example.demo.dto;
 
 public class PatientDto {
 
-    private String pesel;
+    private Long pesel;
     private String adres;
     private String nrUbezpieczenia;
     private String imie;
     private String nrTelefonu;
     private String nazwisko;
 
-    public String getPesel() {
+    public Long getPesel() {
         return pesel;
     }
 
-    public void setPesel(String pesel) {
+    public void setPesel(Long pesel) {
         this.pesel = pesel;
     }
 

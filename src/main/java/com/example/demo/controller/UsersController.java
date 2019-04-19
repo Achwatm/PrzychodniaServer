@@ -19,9 +19,9 @@ public class UsersController {
     UsersRepository usersRepository;
 
     @RequestMapping(value ="/show",method = RequestMethod.GET)
-    public String getAll(){
+    public List<Users> getAll(){
 
-        return usersRepository.showUsers().get(0).getNick() + " " + usersRepository.showUsers().get(0).getPassword();
+        return usersRepository.showUsers();
     }
 
     //Add new user
