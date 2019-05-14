@@ -22,11 +22,6 @@ public class SimpleWebController {
 
 
 
-
-
-
-
-
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String mainPage(Model model) {
         model.addAttribute("model", model);

@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -27,18 +29,41 @@ public class UsersController {
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @RequestMapping(value ="/show",method = RequestMethod.GET)
     public List<Users> getAll(){
-
         return usersRepository.showUsers();
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
-    @RequestMapping(value ="/add",method = RequestMethod.POST)
+    @RequestMapping(value ="/addUser",method = RequestMethod.POST)
     public ResponseEntity  addNewUser(@RequestBody final UsersDto usersDto){
-        Users user = new Users(usersDto.getPesel(),usersDto.getPassword(),usersDto.getRole());
+        Users user = new Users(usersDto.getPesel(),usersDto.getPassword(),"user");
         System.out.println("pesel:"+usersDto.getPesel());
         usersRepository.save(user);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @RequestMapping(value ="/login",method = RequestMethod.POST)
+    public ResponseEntity  login(@RequestBody final UsersDto usersDto) {
+        Users user = new Users(usersDto.getPesel(), usersDto.getPassword(), usersDto.getRole());
+        System.out.println(usersDto.getPassword());
+        System.out.println(usersDto.getPesel());
+        System.out.println(usersDto.getRole());
+boolean confirm=false;
+        for (Users users : usersRepository.showUsers()) {
+            if (users.getPesel().equals(user.getPesel())&& users.getPassword().equals(user.getPassword())&& users.getRole().equals(user.getRole())) {
+                System.out.println(users.getPesel().equals(user.getPesel()));
+                System.out.println(users.getPassword().equals(user.getPassword()));
+                System.out.println(users.getRole().equals(user.getRole()));
+
+                confirm=true;
+            }
+        }
+        if(confirm){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
 }

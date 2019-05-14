@@ -4,6 +4,7 @@ package com.example.demo.dao;
 
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "users",schema = "public")
@@ -50,5 +51,27 @@ public class Users {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return "Users{" +
+                "pesel=" + pesel +
+                ", password='" + password + '\'' +
+                ", role='" + role + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+
+        if (o == this) return true;
+        if (!(o instanceof Users)) {
+            return false;
+        }
+        Users user = (Users) o;
+        return Objects.equals(pesel, user.pesel) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(role, user.role);
     }
 }

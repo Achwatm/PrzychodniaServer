@@ -1,22 +1,19 @@
 package com.example.demo.controller;
 
 
+import com.example.demo.dao.PatientCard;
 import com.example.demo.dao.Patients;
 import com.example.demo.dto.PatientDto;
+import com.example.demo.repository.PatientCardRepository;
 import com.example.demo.repository.PatientsRepository;
-import com.example.demo.service.PatientsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.*;
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.Map;
+
 
 @RestController
 public class PatientsController {
@@ -24,6 +21,7 @@ public class PatientsController {
 
     final
     PatientsRepository patientsRepository;
+    PatientCardRepository patientCardRepository;
 
     @Autowired
     public PatientsController(PatientsRepository patientsRepository) {
@@ -45,6 +43,13 @@ public class PatientsController {
       patientsRepository.save(patient);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @RequestMapping(value ="/showCard",method = RequestMethod.GET)
+    public List<PatientCard> getCards(){
+
+        return patientCardRepository.showCard();
     }
 
 }
