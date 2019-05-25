@@ -2,10 +2,13 @@ package com.example.demo.controller;
 
 
 import com.example.demo.dao.DoctorRole;
+import com.example.demo.dao.Receptionist;
 import com.example.demo.dao.Users;
 import com.example.demo.dto.DoctorRoleDto;
+import com.example.demo.dto.ReceptionistDto;
 import com.example.demo.dto.UsersDto;
 import com.example.demo.repository.DoctorRoleRepository;
+import com.example.demo.repository.RecepcionistRepository;
 import com.example.demo.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,11 +26,13 @@ public class UsersController {
     final
     UsersRepository usersRepository;
     DoctorRoleRepository doctorRoleRepository;
+    RecepcionistRepository recepcionistRepository;
 
     @Autowired
-    public UsersController(UsersRepository usersRepository, DoctorRoleRepository doctorRoleRepository) {
+    public UsersController(UsersRepository usersRepository, DoctorRoleRepository doctorRoleRepository, RecepcionistRepository recepcionistRepository) {
         this.usersRepository = usersRepository;
         this.doctorRoleRepository = doctorRoleRepository;
+        this.recepcionistRepository = recepcionistRepository;
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -82,6 +87,26 @@ boolean confirm=false;
         for (DoctorRole doctors : doctorRoleRepository.showDoctors()) {
             System.out.println(doctor.getPesel().equals(doctors.getPesel()));
             if (doctors.getPesel().equals(doctor.getPesel())&& doctors.getPassword().equals(doctor.getPassword())) {
+                System.out.println("Działa");
+                confirm=true;
+            }
+        }
+        if(confirm){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @RequestMapping(value ="/receptionistLogin",method = RequestMethod.POST)
+    public ResponseEntity  receptionistLogin(@RequestBody final ReceptionistDto receptionistDto) {
+        System.out.println(receptionistDto.getPesel());
+        Receptionist receptionist = new Receptionist(receptionistDto.getPesel(), receptionistDto.getPassword());
+        boolean confirm=false;
+        for (Receptionist receptionists : recepcionistRepository.showRecepcjonists()) {
+            if (receptionists.getPesel().equals(receptionist.getPesel())&& receptionists.getPassword().equals(receptionist.getPassword())) {
                 System.out.println("Działa");
                 confirm=true;
             }

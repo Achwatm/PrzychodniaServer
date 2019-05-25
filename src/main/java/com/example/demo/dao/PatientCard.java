@@ -7,20 +7,26 @@ import javax.persistence.*;
 @Table(name = "cards",schema = "public")
 public class PatientCard {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id_card")
+    private Integer cardId;
     @Column(name = "pesel", columnDefinition = "BIGINT")
     private Long pesel;
-    @Column(name = "imie")
-    private String name;
-    @Column(name = "nazwisko")
-    private String surname;
-    @Column(name = "opis_poprzednich_wizyt")
-    private String visitHistory;
+    @Column(name = "opis_wizyty")
+    private String visit;
     @Column(name = "zalecenia")
     private String recom;
     @Column(name = "id_lekarza")
     private Integer doctorId;
 
     public PatientCard() {
+    }
+
+    public PatientCard(Long pesel, String visit, String recom, Integer doctorId) {
+        this.pesel = pesel;
+        this.visit = visit;
+        this.recom = recom;
+        this.doctorId = doctorId;
     }
 
     public Long getPesel() {
@@ -31,28 +37,13 @@ public class PatientCard {
         this.pesel = pesel;
     }
 
-    public String getName() {
-        return name;
+
+    public String getVisit() {
+        return visit;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public String getVisitHistory() {
-        return visitHistory;
-    }
-
-    public void setVisitHistory(String visitHistory) {
-        this.visitHistory = visitHistory;
+    public void setVisit(String visit) {
+        this.visit = visit;
     }
 
     public String getRecom() {

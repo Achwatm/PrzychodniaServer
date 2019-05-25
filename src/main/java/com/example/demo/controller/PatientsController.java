@@ -3,6 +3,7 @@ package com.example.demo.controller;
 
 import com.example.demo.dao.PatientCard;
 import com.example.demo.dao.Patients;
+import com.example.demo.dto.PatientCardDto;
 import com.example.demo.dto.PatientDto;
 import com.example.demo.repository.PatientCardRepository;
 import com.example.demo.repository.PatientsRepository;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -37,18 +39,20 @@ public class PatientsController {
     }
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @RequestMapping(value ="/showPatientCard/{pesel}",method = RequestMethod.GET)
-    public PatientCard getPatientCard(@PathVariable Long pesel) {
+    public List<PatientCard> getPatientCard(@PathVariable Long pesel) {
+        List<PatientCard> card = new ArrayList<>();
+
         int i = 0;
         boolean confirm=false;
         for (PatientCard patientCard : patientCardRepository.showCard()) {
             if (patientCard.getPesel().equals(pesel)) {
               confirm= true;
-              break;
+              card.add(patientCard);
             }
             i++;
         }
         if(confirm){
-            return patientCardRepository.showCard().get(i);
+            return card;
         }
         else{
             return null;
@@ -72,4 +76,13 @@ public class PatientsController {
         return patientCardRepository.showCard();
     }
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @RequestMapping(value ="/addRegistry",method = RequestMethod.POST)
+    public ResponseEntity  addRegistry(@RequestBody final PatientCardDto patientCardDto){
+        PatientCard card = new PatientCard(patientCardDto.getPesel(),patientCardDto.getVisit(),patientCardDto.getRecom(),patientCardDto.getDoctorId());
+        System.out.println("pesel:"+patientCardDto.getPesel());
+        patientCardRepository.save(card);
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 }

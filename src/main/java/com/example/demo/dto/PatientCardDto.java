@@ -2,9 +2,7 @@ package com.example.demo.dto;
 
 public class PatientCardDto {
     private Long pesel;
-    private String name;
-    private String surname;
-    private String visitHistory;
+    private String visit;
     private String recom;
     private Integer doctorId;
 
@@ -13,9 +11,7 @@ public class PatientCardDto {
 
     public PatientCardDto(Long pesel, String name, String surname, String visitHistory, String recom, Integer doctorId) {
         this.pesel = pesel;
-        this.name = name;
-        this.surname = surname;
-        this.visitHistory = visitHistory;
+        this.visit = visit;
         this.recom = recom;
         this.doctorId = doctorId;
     }
@@ -28,28 +24,13 @@ public class PatientCardDto {
         this.pesel = pesel;
     }
 
-    public String getName() {
-        return name;
+
+    public String getVisit() {
+        return visit;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public String getVisitHistory() {
-        return visitHistory;
-    }
-
-    public void setVisitHistory(String visitHistory) {
-        this.visitHistory = visitHistory;
+    public void setVisit(String visit) {
+        this.visit = visit;
     }
 
     public String getRecom() {
