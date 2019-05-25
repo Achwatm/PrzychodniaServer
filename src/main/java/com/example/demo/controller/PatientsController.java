@@ -24,8 +24,9 @@ public class PatientsController {
     PatientCardRepository patientCardRepository;
 
     @Autowired
-    public PatientsController(PatientsRepository patientsRepository) {
+    public PatientsController(PatientsRepository patientsRepository, PatientCardRepository patientCardRepository) {
         this.patientsRepository = patientsRepository;
+        this.patientCardRepository = patientCardRepository;
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -34,13 +35,32 @@ public class PatientsController {
 
         return patientsRepository.showPatients();
     }
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @RequestMapping(value ="/showPatientCard/{pesel}",method = RequestMethod.GET)
+    public PatientCard getPatientCard(@PathVariable Long pesel) {
+        int i = 0;
+        boolean confirm=false;
+        for (PatientCard patientCard : patientCardRepository.showCard()) {
+            if (patientCard.getPesel().equals(pesel)) {
+              confirm= true;
+              break;
+            }
+            i++;
+        }
+        if(confirm){
+            return patientCardRepository.showCard().get(i);
+        }
+        else{
+            return null;
+        }
+    }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @RequestMapping(value ="/addPatient",method = RequestMethod.POST)
     public ResponseEntity  addNewPatient(@RequestBody final PatientDto patientDto){
-      Patients patient = new Patients(patientDto.getPesel(),patientDto.getAdres(),patientDto.getNrUbezpieczenia(),patientDto.getImie(),patientDto.getNrTelefonu(),patientDto.getNazwisko());
-      System.out.println("pesel:"+patientDto.getPesel());
-      patientsRepository.save(patient);
+        Patients patient = new Patients(patientDto.getPesel(),patientDto.getAdres(),patientDto.getNrUbezpieczenia(),patientDto.getImie(),patientDto.getNrTelefonu(),patientDto.getNazwisko());
+        System.out.println("pesel:"+patientDto.getPesel());
+        patientsRepository.save(patient);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

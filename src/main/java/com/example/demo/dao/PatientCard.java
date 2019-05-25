@@ -4,7 +4,7 @@ package com.example.demo.dao;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "karta_pacjenta",schema = "public")
+@Table(name = "cards",schema = "public")
 public class PatientCard {
     @Id
     @Column(name = "pesel", columnDefinition = "BIGINT")

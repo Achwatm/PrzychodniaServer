@@ -1,16 +1,18 @@
 package com.example.demo.controller;
 
 
+import com.example.demo.dao.DoctorRole;
 import com.example.demo.dao.Users;
+import com.example.demo.dto.DoctorRoleDto;
 import com.example.demo.dto.UsersDto;
+import com.example.demo.repository.DoctorRoleRepository;
 import com.example.demo.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+
 import java.util.List;
 
 
@@ -20,10 +22,12 @@ public class UsersController {
 
     final
     UsersRepository usersRepository;
+    DoctorRoleRepository doctorRoleRepository;
 
     @Autowired
-    public UsersController(UsersRepository usersRepository) {
+    public UsersController(UsersRepository usersRepository, DoctorRoleRepository doctorRoleRepository) {
         this.usersRepository = usersRepository;
+        this.doctorRoleRepository = doctorRoleRepository;
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -66,4 +70,29 @@ boolean confirm=false;
             return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         }
     }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @RequestMapping(value ="/doctorLogin",method = RequestMethod.POST)
+    public ResponseEntity  doctorLogin(@RequestBody final DoctorRoleDto usersDto) {
+        System.out.println(usersDto.getPesel());
+        DoctorRole doctor = new DoctorRole(usersDto.getPesel(), usersDto.getPassword());
+        System.out.println(doctor.getPesel());
+        System.out.println(doctor.getPassword());
+        boolean confirm=false;
+        for (DoctorRole doctors : doctorRoleRepository.showDoctors()) {
+            System.out.println(doctor.getPesel().equals(doctors.getPesel()));
+            if (doctors.getPesel().equals(doctor.getPesel())&& doctors.getPassword().equals(doctor.getPassword())) {
+                System.out.println("Działa");
+                confirm=true;
+            }
+        }
+        if(confirm){
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
+
+
 }
