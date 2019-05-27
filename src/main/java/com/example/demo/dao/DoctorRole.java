@@ -13,7 +13,7 @@ import javax.persistence.*;
 public class DoctorRole {
 
     @Id
-    @Column(name = "id_pozwolenia", columnDefinition = "BIGINT")
+    @Column(name = "id_lekarza", columnDefinition = "BIGINT")
     private Long pesel;
     @Column(name = "password")
     private String password;

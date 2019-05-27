@@ -6,36 +6,33 @@ import javax.persistence.*;
 @Table(name = "lekarze",schema = "public")
 public class Doctor {
     @Id
-    @Column(name = "id_lekarza", columnDefinition = "INTEGER")
-    private Integer doctorId;
+    @Column(name = "id_lekarza", columnDefinition = "BIGINT")
+    private Long doctorId;
     @Column(name = "imie")
     private String name;
     @Column(name = "nazwisko")
     private String surname;
     @Column(name = "specjalnosc")
     private String speciality;
-    @Column(name = "nr_pozwolenia")
-    private String licenseNumber;
     @Column(name = "nr_telefonu")
     private String phoneNumber;
 
     public Doctor() {
     }
 
-    public Doctor(Integer doctorId, String name, String surname, String speciality, String licenseNumber, String phoneNumber) {
+    public Doctor(Long doctorId, String name, String surname, String speciality, String phoneNumber) {
         this.doctorId = doctorId;
         this.name = name;
         this.surname = surname;
         this.speciality = speciality;
-        this.licenseNumber = licenseNumber;
         this.phoneNumber = phoneNumber;
     }
 
-    public Integer getDoctorId() {
+    public Long getDoctorId() {
         return doctorId;
     }
 
-    public void setIdDoctor(Integer doctorId) {
+    public void setIdDoctor(Long doctorId) {
         this.doctorId = doctorId;
     }
 
@@ -61,14 +58,6 @@ public class Doctor {
 
     public void setSpeciality(String speciality) {
         this.speciality = speciality;
-    }
-
-    public String getLicenseNumber() {
-        return licenseNumber;
-    }
-
-    public void setLicenseNumber(String licenseNumber) {
-        this.licenseNumber = licenseNumber;
     }
 
     public String getPhoneNumber() {

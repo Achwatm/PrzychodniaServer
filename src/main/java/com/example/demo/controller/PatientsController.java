@@ -1,10 +1,13 @@
 package com.example.demo.controller;
 
 
+import com.example.demo.dao.Appointment;
 import com.example.demo.dao.PatientCard;
 import com.example.demo.dao.Patients;
+import com.example.demo.dto.AppointmentDto;
 import com.example.demo.dto.PatientCardDto;
 import com.example.demo.dto.PatientDto;
+import com.example.demo.repository.AppointmentRepository;
 import com.example.demo.repository.PatientCardRepository;
 import com.example.demo.repository.PatientsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +27,12 @@ public class PatientsController {
     final
     PatientsRepository patientsRepository;
     PatientCardRepository patientCardRepository;
-
+    AppointmentRepository appointmentRepository;
     @Autowired
-    public PatientsController(PatientsRepository patientsRepository, PatientCardRepository patientCardRepository) {
+    public PatientsController(PatientsRepository patientsRepository, PatientCardRepository patientCardRepository, AppointmentRepository appointmentRepository) {
         this.patientsRepository = patientsRepository;
         this.patientCardRepository = patientCardRepository;
+        this.appointmentRepository = appointmentRepository;
     }
 
     @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -82,6 +86,17 @@ public class PatientsController {
         PatientCard card = new PatientCard(patientCardDto.getPesel(),patientCardDto.getVisit(),patientCardDto.getRecom(),patientCardDto.getDoctorId());
         System.out.println("pesel:"+patientCardDto.getPesel());
         patientCardRepository.save(card);
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @RequestMapping(value ="/makeAppointment",method = RequestMethod.POST)
+    public ResponseEntity  makeAppointment(@RequestBody final AppointmentDto appointmentDto){
+        System.out.println(appointmentDto.getTime());
+        Appointment appointment = new Appointment(appointmentDto.getPesel(), appointmentDto.getDate(), appointmentDto.getTime(),appointmentDto.getDoctorId());
+        System.out.println("pesel:"+appointmentDto.getTime());
+        appointmentRepository.save(appointment);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

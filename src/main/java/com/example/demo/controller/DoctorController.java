@@ -1,16 +1,20 @@
 package com.example.demo.controller;
 
 
+import com.example.demo.dao.Appointment;
 import com.example.demo.dao.Doctor;
 import com.example.demo.dao.Referral;
 import com.example.demo.dto.DoctorDto;
 import com.example.demo.dto.ReferralDto;
+import com.example.demo.repository.AppointmentRepository;
 import com.example.demo.repository.DoctorsRepository;
 import com.example.demo.repository.ReferralRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -21,11 +25,13 @@ public class DoctorController {
     final
     DoctorsRepository doctorRepository;
     ReferralRepository referralRepository;
+    AppointmentRepository appointmentRepository;
 
     @Autowired
-    public DoctorController(DoctorsRepository doctorRepository, ReferralRepository referralRepository) {
+    public DoctorController(DoctorsRepository doctorRepository, ReferralRepository referralRepository, AppointmentRepository appointmentRepository) {
         this.doctorRepository = doctorRepository;
         this.referralRepository = referralRepository;
+        this.appointmentRepository = appointmentRepository;
     }
 
 
@@ -39,7 +45,7 @@ public class DoctorController {
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @RequestMapping(value ="/addDoctor",method = RequestMethod.POST)
     public ResponseEntity  addNewPatient(@RequestBody final DoctorDto doctorDto){
-        Doctor doctor = new Doctor(doctorDto.getDoctorId(),doctorDto.getName(),doctorDto.getSurname(),doctorDto.getSpeciality(),doctorDto.getLicenseNumber(),doctorDto.getPhoneNumber());
+        Doctor doctor = new Doctor(doctorDto.getDoctorId(),doctorDto.getName(),doctorDto.getSurname(), doctorDto.getLicenseNumber(),doctorDto.getPhoneNumber());
         doctorRepository.save(doctor);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -53,6 +59,29 @@ public class DoctorController {
         referralRepository.save(referral);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @RequestMapping(value ="/showAppointments/{doctorId}",method = RequestMethod.GET)
+    public List<Appointment> getAppointments(@PathVariable Integer doctorId){
+
+        List<Appointment> appointments = new ArrayList<>();
+
+        int i = 0;
+        boolean confirm=false;
+        for (Appointment appointment : appointmentRepository.showAppointments()) {
+            if (appointment.getDoctorId().equals(doctorId)) {
+                confirm= true;
+                appointments.add(appointment);
+            }
+            i++;
+        }
+        if(confirm){
+            return appointments;
+        }
+        else{
+            return null;
+        }
     }
 
 }

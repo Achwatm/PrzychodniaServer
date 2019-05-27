@@ -1,18 +1,18 @@
 package com.example.demo.dto;
 
 public class DoctorDto {
-    private Integer doctorId;
+    private Long doctorId;
     private String  name;
     private String surname;
     private String speciality;
     private String licenseNumber;
     private String phoneNumber;
 
-    public Integer getDoctorId() {
+    public Long getDoctorId() {
         return doctorId;
     }
 
-    public void setDoctorId(Integer doctorId) {
+    public void setDoctorId(Long doctorId) {
         this.doctorId = doctorId;
     }
 
